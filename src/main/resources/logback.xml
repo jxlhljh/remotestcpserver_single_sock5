@@ -1,0 +1,31 @@
+<configuration>
+	<property name="log_dir" value="./logs" /><!-- 生产环境使用绝对路径 -->
+	
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder><!-- encoder 默认配置为PatternLayoutEncoder -->
+			<pattern>%d %5p [%t] %c.%M:%L - %m%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log_dir}/log.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<fileNamePattern>${log_dir}/log.log.%i</fileNamePattern>
+			<minIndex>1</minIndex>
+			<maxIndex>10</maxIndex>
+		</rollingPolicy>
+		<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<maxFileSize>1MB</maxFileSize>
+		</triggeringPolicy>
+		<encoder>
+			<!--  <pattern>%d{yyyy-MM-dd HH:mm:ss,SSS} %5p [%t] %replace(%caller{1}){'\t|Caller.{1}0|\r\n', ''} - %m%n</pattern> -->
+			<pattern>%d %5p [%t] %c.%M:%L - %m%n</pattern>
+		</encoder>
+	</appender>
+
+	<root level="INFO">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE" />
+	</root>
+</configuration>
