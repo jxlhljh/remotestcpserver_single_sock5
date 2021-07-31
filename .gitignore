@@ -1,0 +1,11 @@
+target/
+logs/
+
+### Eclipse ###
+.settings
+.classpath
+.project
+
+### IntelliJ IDEA ###
+.idea
+*.iml

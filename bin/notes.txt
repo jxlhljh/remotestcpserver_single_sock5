@@ -1,0 +1,38 @@
+
+传参说明--------->>>>
+Server(10.4.4.4)
+
+serverPort:服务端监听端口,默认7000
+token：校验密码，默认123456
+ssl:是否需要ssl加密，默认为false
+
+
+Control(192.168.60.101)
+
+trunnelHost:隧道IP 如 10.4.4.4
+trunnelPort:隧道Port 7000
+token:校验密码，默认123456
+groups:分组字符串，多个分组用逗号分隔如： stcp1,stcp2
+remoteHosts: 需要访问的真实IP列表，逗号分隔， 如192.168.60.121,192.168.60.133
+remotePorts: 需要访问的真实Port列表，逗号分隔 如 3306，8899
+serverFrontPorts：服务端口（提供给穿透访问使用）：如13306，18899
+
+
+可选 ---->>>
+Control(192.168.60.101)：Control需要通过代理连接到Server(10.4.4.4)时用到
+needProxy = false; //是否需要代理
+proxyType = "socks"; //代理方式 socks,http
+proxyHost = "127.0.0.1"; //代理ip
+proxyPort = 1080;        //代理端口
+proxyUsername = "sendi"; //代理账号
+proxyPassword = "sendi123"; //代理密码
+
+
+--------------------------------->>>
+
+将Server比如 10.4.4.4（外网IP） 和 Control（192.168.60.101）启动
+
+通过以下映射规则进行访问：
+
+10.4.4.4:18899  -------->  192.168.60.133:8899
+10.4.4.4:13306  -------->  192.168.60.121:3306
