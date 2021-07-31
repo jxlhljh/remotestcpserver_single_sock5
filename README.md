@@ -1,6 +1,6 @@
 1. ##拉取代码
 ```c
-git clone https://github.com/jxlhljh/remotestcpserver_single_sock5.git
+git clone https://gitee.com/jxlhljh/remotestcpserver_single_sock5.git
 ```
 2. ##编绎
 ```c
