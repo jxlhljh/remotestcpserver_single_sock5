@@ -1,11 +1,12 @@
 package cn.gzsendi.stcp.server;
 
+import cn.gzsendi.stcp.config.ServerConfig;
 
 public class StcpServerStart {
 	
-	public static int serverPort = 7000;
-	public static String token = "123456";
-	public static boolean ssl = true;
+	public static int serverPort = ServerConfig.serverPort;
+	public static String token = ServerConfig.token;
+	public static boolean ssl = ServerConfig.ssl;
 	
 	public static void main(String[] args) {
 		

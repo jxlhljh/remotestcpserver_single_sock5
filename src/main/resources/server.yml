@@ -1,0 +1,6 @@
+#服务端端口号
+serverPort: 7000
+#token校验码，服务端与controlClient端需要配置成一致
+token: 123456
+#是否需要采用ssl加密传输数据，服务端与controlClient端需要配置成一致
+ssl: false

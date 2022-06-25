@@ -6,17 +6,16 @@ import java.util.Map;
 import cn.gzsendi.stcp.utils.FlowCounter;
 import cn.gzsendi.stcp.visitor.FrontSocketThread;
 import cn.gzsendi.system.exception.GzsendiException;
-
-import com.alibaba.fastjson.JSONObject;
+import cn.gzsendi.system.utils.JsonUtil;
 
 public class ControlCliHandler {
 	
 	private int bufferSize = 8092;
 	private FrontSocketThread frontSocketThread;
 	private ClientSocketThread clientSocketThread;
-	private JSONObject headStr;
+	private Map<String,Object> headStr;
 	
-	public ControlCliHandler(ClientSocketThread clientSocketThread,JSONObject headStr){
+	public ControlCliHandler(ClientSocketThread clientSocketThread,Map<String,Object> headStr){
 		this.clientSocketThread = clientSocketThread;
 		this.headStr = headStr;
 	}
@@ -26,7 +25,7 @@ public class ControlCliHandler {
 		try {
 			
 			Map<String,FrontSocketThread> frontSocketThreads = clientSocketThread.getStcpServer().getFrontSocketThreads();
-			String globalTraceId = headStr.getString("globalTraceId"); 
+			String globalTraceId = JsonUtil.getString(headStr, "globalTraceId"); 
 			FrontSocketThread frontSocketThread = frontSocketThreads.get(globalTraceId);
 			
 			//frontSocketThread没有连接

@@ -1,0 +1,44 @@
+#token校验码，服务端与controlClient端需要配置成一致
+token: 123456
+#是否需要采用ssl加密传输数据，服务端与controlClient端需要配置成一致
+ssl: false
+
+#隧道配置，即服务端的IP和端口
+trunnelHost: 127.0.0.1
+trunnelPort: 7000
+
+##############配置controlClient端是否需要通过http代理或sock5代理连接服务端，默认false##############
+#needProxy: false
+#配置代理类型，http或socks，表示http代理或sock5代理, 默认http代理,仅当needProxy为true有效
+#proxyType: http
+#代理服务器IP
+#proxyHost: 127.0.0.1
+#代理服务器端口
+#proxyPort: 1080
+#代理服务器认证账号
+#proxyUsername: sendi
+#代理服务器认证密码
+#proxyPassword: sendi123
+
+##############controlClient透传详细配置##############
+##透传详细配置，支持数组，配置一个或多个
+configs:
+    #分组名称，数组内需要唯一不能相同。
+  - group: tcptest
+    #内网穿透类型：tcp或sock5。
+    type: tcp
+    #内网穿透远程真实服务IP
+    remoteHost: 127.0.0.1
+    #内网穿透远程真实服务端口号
+    remotePort: 3306
+    #透传后服务端开放提供出来进行访问的端口号，连接成功后会将以端口号发送给StcpServer并在Server端口启动这个端口号进行监听服务
+    serverFrontPort: 13306
+    
+    #分组名称，数组内需要唯一不能相同。
+  - group: socktest
+    #内网穿透类型：sock5。
+    #内网穿透类型：sock5时，只需要指定服务端的端口号，相当于在Server端的此serverFrontPort上启动了一个sock5服务器, 
+    #此开启的sock5服务为认证模式，账号sendi密码为sendi123,配置写死在ControlCli.java中了。
+    type: sock5
+    #透传后服务端开放提供出来进行访问的端口号，连接成功后会将以端口号发送给StcpServer并在Server端口启动这个端口号进行监听服务
+    serverFrontPort: 1080

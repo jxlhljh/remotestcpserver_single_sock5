@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -16,8 +17,6 @@ import cn.gzsendi.stcp.server.StcpServerStart;
 import cn.gzsendi.stcp.utils.FlowCounter;
 import cn.gzsendi.system.exception.GzsendiException;
 import cn.gzsendi.system.utils.JsonUtil;
-
-import com.alibaba.fastjson.JSONObject;
 
 public class ClientSocketThread extends Thread{
 	
@@ -57,11 +56,12 @@ public class ClientSocketThread extends Thread{
 			dout = new DataOutputStream(out);
 			
 			//解析头部信息
-			JSONObject headStr = readDataStr(din);
-			String msgType = headStr.getString("msgType");//消息类型，controlConnect
-			String tokenStr = headStr.getString("token");//gzsendi
-			String groupName = headStr.getString("groupName");//stcp
-			String role = headStr.getString("role"); //control,visitor,controlCli,visitorCli
+			Map<String,Object> headStr = readDataStr(din);
+			
+			String msgType = JsonUtil.getString(headStr, "msgType");//消息类型，controlConnect
+			String tokenStr = JsonUtil.getString(headStr, "token"); //gzsendi
+			String groupName = JsonUtil.getString(headStr, "groupName");//stcp
+			String role = JsonUtil.getString(headStr, "role"); //control,visitor,controlCli,visitorCli
 			if(StringUtils.isEmpty(msgType)) {
 				throw new GzsendiException("msgType is null.");
 			}
@@ -121,7 +121,7 @@ public class ClientSocketThread extends Thread{
 	}
 	
 	//读取socket消息头 , 0x070x07+字符串长度+Json字符串
-	private JSONObject readDataStr(DataInputStream dis) throws IOException{
+	private Map<String,Object> readDataStr(DataInputStream dis) throws IOException{
 		
 		byte firstByte = dis.readByte();
 		byte secondByte = dis.readByte();
@@ -141,7 +141,7 @@ public class ClientSocketThread extends Thread{
 		//记录进入StcpServer的流量
 		FlowCounter.addReceivedSize(2 + resultlength);
 		
-		return JsonUtil.fromJson(headStr);
+		return JsonUtil.castToObject(headStr);
 	}
 	
 	public StcpServer getStcpServer() {

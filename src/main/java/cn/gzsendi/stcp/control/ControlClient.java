@@ -11,6 +11,7 @@ import java.net.PasswordAuthentication;
 import java.net.Proxy;
 import java.net.Socket;
 import java.security.KeyStore;
+import java.util.Map;
 
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
@@ -25,8 +26,6 @@ import cn.gzsendi.stcp.utils.MessageUtils;
 import cn.gzsendi.stcp.utils.SocketFactory;
 import cn.gzsendi.system.exception.GzsendiException;
 import cn.gzsendi.system.utils.JsonUtil;
-
-import com.alibaba.fastjson.JSONObject;
 
 public class ControlClient extends Thread {
 	private final static Logger logger = LoggerFactory.getLogger(ControlClient.class);
@@ -180,8 +179,8 @@ public class ControlClient extends Thread {
 			//其他包解析并处理
 			while(true){
 				
-				JSONObject dataStr = readDataStr(din);
-				String msgType = dataStr.getString("msgType");//消息类型，controlConnect,controlHeart,visitorConnect,visitorHeart,dataBindReq
+				Map<String,Object> dataStr = readDataStr(din);
+				String msgType = JsonUtil.getString(dataStr, "msgType");//消息类型，controlConnect,controlHeart,visitorConnect,visitorHeart,dataBindReq
 				
 				//心跳回应
 				if("controlHeart".equals(msgType)) {
@@ -191,7 +190,7 @@ public class ControlClient extends Thread {
 					
 				}else if("dataBindReq".equals(msgType)) {
 					
-					logger.info(groupName + " " + dataStr.getString("globalTraceId"));
+					logger.info(groupName + " " + JsonUtil.getString(dataStr, "globalTraceId"));
 					new ControlCli(typeName,remoteHost,remotePort,dataStr).start();
 
 					
@@ -242,7 +241,7 @@ public class ControlClient extends Thread {
 	}
 	
 	//读取socket消息头 , 0x070x07+字符串长度+Json字符串
-	private JSONObject readDataStr(DataInputStream dis) throws IOException{
+	private Map<String,Object> readDataStr(DataInputStream dis) throws IOException{
 		
 		byte firstByte = dis.readByte();
 		byte secondByte = dis.readByte();
@@ -258,7 +257,7 @@ public class ControlClient extends Thread {
 			totalReadedSize += readedSize;
 		}
 		String headStr = new String(datas,characterSet);
-		return JsonUtil.fromJson(headStr);
+		return JsonUtil.castToObject(headStr);
 	}
 
 	//心跳包发送

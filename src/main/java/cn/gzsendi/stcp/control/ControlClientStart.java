@@ -3,26 +3,28 @@ package cn.gzsendi.stcp.control;
 import java.util.Arrays;
 import java.util.List;
 
+import cn.gzsendi.stcp.config.ControlClientConfig;
+
 public class ControlClientStart {
 
-	public static String token = "gzsendi";
-	public static String trunnelHost = "127.0.0.1";
-	public static int trunnelPort = 7000;
+	public static String token = ControlClientConfig.token;
+	public static String trunnelHost = ControlClientConfig.trunnelHost;
+	public static int trunnelPort = ControlClientConfig.trunnelPort;
 	
-	public static boolean ssl = true;
+	public static boolean ssl = ControlClientConfig.ssl;
 
-	public static List<String> groups = Arrays.asList("stcp1");
-	public static List<String> types = Arrays.asList("tcp");
-	public static List<String> remoteHosts = Arrays.asList("192.168.60.133");
-	public static List<String> remotePorts = Arrays.asList("8899");
-	public static List<String> serverFrontPorts = Arrays.asList("18899");
+	public static List<String> groups = ControlClientConfig.groups;
+	public static List<String> types = ControlClientConfig.types;
+	public static List<String> remoteHosts = ControlClientConfig.remoteHosts;
+	public static List<String> remotePorts = ControlClientConfig.remotePorts;
+	public static List<String> serverFrontPorts = ControlClientConfig.serverFrontPorts;
 
-	public static boolean needProxy = false;
-	public static String proxyType = "socks";
-	public static String proxyHost = "172.168.201.131";
-	public static int proxyPort = 19080;
-	public static String proxyUsername = "sendi";
-	public static String proxyPassword = "sendi123";
+	public static boolean needProxy = ControlClientConfig.needProxy;
+	public static String proxyType = ControlClientConfig.proxyType;
+	public static String proxyHost = ControlClientConfig.proxyHost;
+	public static int proxyPort = ControlClientConfig.proxyPort;
+	public static String proxyUsername = ControlClientConfig.proxyUsername;
+	public static String proxyPassword = ControlClientConfig.proxyPassword;
 
 	public static void main(String[] args) {
 

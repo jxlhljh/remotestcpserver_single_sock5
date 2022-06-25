@@ -14,6 +14,7 @@ import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.security.KeyStore;
 import java.util.Arrays;
+import java.util.Map;
 
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
@@ -27,8 +28,7 @@ import cn.gzsendi.stcp.server.StcpServer;
 import cn.gzsendi.stcp.utils.MessageUtils;
 import cn.gzsendi.stcp.utils.SocketFactory;
 import cn.gzsendi.system.exception.GzsendiException;
-
-import com.alibaba.fastjson.JSONObject;
+import cn.gzsendi.system.utils.JsonUtil;
 
 public class ControlCli extends Thread{
 	
@@ -64,10 +64,10 @@ public class ControlCli extends Thread{
 	private InputStream rin ;
 	private DataOutputStream dout = null;
 	
-	public ControlCli(String typeName,String remoteHost,int remotePort,JSONObject dataStr){
+	public ControlCli(String typeName,String remoteHost,int remotePort,Map<String,Object> dataStr){
 		this.typeName = typeName;
-		this.groupName = dataStr.getString("groupName");
-		this.globalTraceId = dataStr.getString("globalTraceId"); 
+		this.groupName = JsonUtil.getString(dataStr, "groupName");
+		this.globalTraceId = JsonUtil.getString(dataStr, "globalTraceId"); 
 		this.remoteHost = remoteHost;
 		this.remotePort = remotePort;
 	}

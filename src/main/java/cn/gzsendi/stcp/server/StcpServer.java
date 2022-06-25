@@ -118,28 +118,29 @@ public class StcpServer {
 				
 				try {
 					Thread.sleep(30000l);
+					
+					logger.info("groupNames.size ->>>> {}", groupNames.size());
+					for(ClientSocketThread clientSocketThread : groupNames.values()) {
+						logger.info("groupName: " + clientSocketThread.getGroupName() + " id:" + clientSocketThread.hashCode() +  " ->>>> ");
+					}
+					
+					logger.info("frontServers.size ->>>> {}", frontServers.size());
+					for(FrontServer frontServer : frontServers.values()) {
+						logger.info("groupName: " + frontServer.getGroupName() + " frontPort: " + frontServer.getFrontPort() + " ->>>> ");
+					}
+					
+					logger.info("frontSocketThreads.size ->>>> {}", frontSocketThreads.size());
+					for(FrontSocketThread frontSocketThread : frontSocketThreads.values()) {
+						logger.info("groupName: " + frontSocketThread.getGroupName() + " globalTraceId: " + frontSocketThread.getGlobalTraceId() + " ->>>> ");
+					}
+					
+					logger.info("Stcpserver totalReceivedSize ->>>> {}", formatSize(FlowCounter.totalReceivedSize));
+					logger.info("Stcpserver totalSendSize     ->>>> {}", formatSize(FlowCounter.totalSendSize));
+					logger.info("");
+					
 				} catch (InterruptedException e) {
 					logger.error("",e);
 				}
-				
-				logger.info("groupNames.size ->>>> {}", groupNames.size());
-				for(ClientSocketThread clientSocketThread : groupNames.values()) {
-					logger.info("groupName: " + clientSocketThread.getGroupName() + " id:" + clientSocketThread.hashCode() +  " ->>>> ");
-				}
-				
-				logger.info("frontServers.size ->>>> {}", frontServers.size());
-				for(FrontServer frontServer : frontServers.values()) {
-					logger.info("groupName: " + frontServer.getGroupName() + " frontPort: " + frontServer.getFrontPort() + " ->>>> ");
-				}
-				
-				logger.info("frontSocketThreads.size ->>>> {}", frontSocketThreads.size());
-				for(FrontSocketThread frontSocketThread : frontSocketThreads.values()) {
-					logger.info("groupName: " + frontSocketThread.getGroupName() + " globalTraceId: " + frontSocketThread.getGlobalTraceId() + " ->>>> ");
-				}
-				
-				logger.info("Stcpserver totalReceivedSize ->>>> {}", formatSize(FlowCounter.totalReceivedSize));
-				logger.info("Stcpserver totalSendSize     ->>>> {}", formatSize(FlowCounter.totalSendSize));
-				logger.info("");
 				
 			}
 			
