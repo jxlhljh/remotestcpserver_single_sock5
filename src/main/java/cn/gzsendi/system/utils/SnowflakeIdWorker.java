@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
  
 import java.net.Inet4Address;
+import java.net.InetAddress;
 import java.net.UnknownHostException;
  
 /**
@@ -163,7 +164,13 @@ public class SnowflakeIdWorker {
     }
  
     private static Long getDataCenterId(){
-        int[] ints = StringUtils.toCodePoints(SystemUtils.getHostName());
+        String hostName = "";
+        try {
+            hostName = InetAddress.getLocalHost().getHostName();
+        } catch (Exception e) {
+            hostName = SystemUtils.getHostName();
+        }
+        int[] ints = StringUtils.toCodePoints(hostName);
         int sums = 0;
         for (int i: ints) {
             sums += i;
